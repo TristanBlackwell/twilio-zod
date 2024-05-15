@@ -1,2 +1,2 @@
-export * as sids from "./sids";
+export * as schemas from "./schemas";
 export * from "./error";
