@@ -1,4 +1,3 @@
-import { stringToJson } from "../../json";
 import z from "zod";
 
 const workerRouting = z
@@ -9,7 +8,7 @@ const workerRouting = z
   .passthrough()
   .describe("Assigned skills");
 
-const attributes = z
+const workerAttributes = z
   .object({
     contact_uri: z.string().startsWith("client").describe("Contact address"),
     disabled_skills: workerRouting,
@@ -22,6 +21,6 @@ const attributes = z
   .passthrough()
   .describe("The workers attributes");
 
-export const workerAttributes = attributes.or(stringToJson.pipe(attributes));
+// export const workerAttributes = attributes.or(stringToJson.pipe(attributes));
 
-export type workerAttributes = z.infer<typeof workerAttributes>;
+export type WorkerAttributes = z.infer<typeof workerAttributes>;

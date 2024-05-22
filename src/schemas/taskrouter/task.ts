@@ -1,15 +1,15 @@
-import z, { ZodRawShape } from "zod";
-
-import { stringToJson } from "../../json";
+import z from "zod";
 
 export const taskChannelName = z
   .enum(["default", "voice", "chat", "email", "sms", "video"])
   .describe("The channel which the task has come in on");
 
-const attributess = z
+const taskAttributes = z
   .object({
     from: z.string().describe("The address which the call originated from"),
-    direction: z.enum(["inbound", "outbound"]).describe("Direction of the task"),
+    direction: z
+      .enum(["inbound", "outbound"])
+      .describe("Direction of the task"),
     conversations: z
       .object({
         initiated_by: z.string().optional(),
@@ -40,12 +40,17 @@ const attributess = z
   })
   .passthrough();
 
-export const taskAttributes = attributess.or(stringToJson.pipe(attributess));
+/*
+TODO: support for parsing a JSON string without needing to do `JSON.parse` on the
+application side. The below code does this but then makes it impossible to extend
+schemas since the resulting type becomes a `ZodEffect`.
 
+export const taskAttributes = attributess.or(stringToJson.pipe(attributess));
 export const extendTaskAttributes = (initial: ZodRawShape, extension: ZodRawShape) => {
-  let extendedSchema = attributess.extend(extension);
-  return extendedSchema.or(stringToJson.pipe(extendedSchema));
-};
+let extendedSchema = attributess.extend(extension);
+return extendedSchema.or(stringToJson.pipe(extendedSchema));
+// };
+*/
 
 export type TaskChannelName = z.infer<typeof taskChannelName>;
 export type TaskAttributes = z.infer<typeof taskAttributes>;

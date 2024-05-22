@@ -11,7 +11,9 @@ type Literal = z.infer<typeof literalSchema>;
 
 type Json = Literal | { [key: string]: Json } | Json[];
 
-const jsonSchema: z.ZodType<Json> = z.lazy(() => z.union([literalSchema, z.array(jsonSchema), z.record(jsonSchema)]));
+const jsonSchema: z.ZodType<Json> = z.lazy(() =>
+  z.union([literalSchema, z.array(jsonSchema), z.record(jsonSchema)])
+);
 
 export const json = () => jsonSchema;
 
@@ -20,11 +22,15 @@ export const json = () => jsonSchema;
 /**
  * Parses any string value into a JSON object
  */
-export const stringToJson = z.string().transform((str, ctx): z.infer<ReturnType<typeof json>> => {
-  try {
-    return JSON.parse(str);
-  } catch (e) {
-    ctx.addIssue({ code: "custom", message: "Invalid JSON" });
-    return z.NEVER;
-  }
-});
+export const stringToJson = z
+  .string()
+  .transform((str, ctx): z.infer<ReturnType<typeof json>> => {
+    // We don't want the parse to throw out of our transform function so we need to catch that here. Doing
+    // so would mean a `ZodError` is throw even if you are using `.safeParse(...)`. Not good.
+    try {
+      return JSON.parse(str);
+    } catch (e) {
+      ctx.addIssue({ code: "custom", message: "Invalid JSON" });
+      return z.NEVER;
+    }
+  });
