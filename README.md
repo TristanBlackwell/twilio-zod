@@ -10,7 +10,13 @@
     - [Deno](#deno)
   - [Usage](#usage)
   - [Extending](#extending)
+  - [Utilities](#utilities)
+    - [String to JSON](#string-to-json)
   - [Error handling](#error-handling)
+    - [Parsing](#parsing)
+    - [NodeJS library](#nodejs-library)
+      - [Zod Schema (preferred)](#zod-schema-preferred)
+      - [Type guard](#type-guard)
 
 ## Introduction
 
@@ -90,17 +96,96 @@ parsedTaskAttributes.roles // => string[]
 parsedTaskAttributes.language // => string ✔
 ```
 
+## Utilities
+
+### String to JSON
+
+In some events, Twilio will return a JSON as a string object. To predictably parse within a Zod schema a `stringToJson()` utility is exposed. 
+This can be used to implicity parse as JSON string and validate it against an schema:
+
+```ts
+import { stringToJson } from "twilio-zod"
+
+const attributesSchema = z.object({
+  conversationSid: z.string()...
+});
+
+/*
+{
+  name: "John Doe",
+  attributes: "{\"avatarUrl\": \"http://....\", \"conversationSid\": \"CH....\"}"
+}
+*/
+const eventSchema = z.object({
+  name: z.string(),
+  attributes: stringToJson.pipe(attributesSchema) // This will parse a JSON string then validate it against the attributes schema
+})
+```
+
 ## Error handling
+
+### Parsing
 
 All schemas will throw (or return if safe parsing) an instance of `ZodError`. See the [Zod documentation](https://github.com/colinhacks/zod/blob/master/README.md#error-handling) for further detail.
 
 `ZodError` is brilliant for debugging but is not very user-friendly. A `generateMessage()` function is included which converts an instance of `ZodError` to a human-friendly, readable string. This takes the top-most error, ignoring the rest.
 
 ```ts
+import { sids } from "twilio-zod"
+
 let result = sids.conversationSidSchema.safeParse("CH234");
 if (!result.success) {
   console.error(generateMessage(result.error)); // => "too_small: SID must be 34 characters in length"
 } else {
   console.log("Good!");
+}
+```
+
+### NodeJS library
+
+The [Twilio NodeJS](https://www.npmjs.com/package/twilio) will throw on operations when an error is met. Generally, Twilio with throw a standard format similiar to:
+
+```json
+{
+  "message": "A description of the error",
+  "status": "The HTTP status code matching the error",
+  "code": "The Twilio specific error code from their dictionary",
+  "details": "Additional information on the error",
+  "moreInfo": "Further information - typically a link to the definition on the dictionary"
+}
+```
+
+Naturally with TypeScript, an error caught in a catch block will be of a type `any` or `unknown`. There is two
+methods of dealing with this:
+
+#### Zod Schema (preferred)
+
+A schema is exposed that can parse the error returned much like you would parse any other object:
+
+```ts
+import { twilioError } from "twilio-zod/error"
+
+try {
+  twilio.conversations.v1.conversations("CH1234").fetch() // 404 error thrown
+} catch (err /* unknown */) {
+  let parsedError = twilioError.parse(err)
+  parsedError.data // TwilioError
+}
+```
+
+
+#### Type guard
+
+You can use the exposed `isTwilioError()` type guard function:
+
+```ts
+import { isTwilioError } from "twilio-zod"
+
+try {
+  twilio.conversations.v1.conversations("CH1234").fetch() // 404 error thrown
+} catch (err /* unknown */) {
+  if (isTwilioError(err)) {
+    err // TwilioError
+  }
 }
 ```

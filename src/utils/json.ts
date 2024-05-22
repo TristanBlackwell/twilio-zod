@@ -15,7 +15,7 @@ const jsonSchema: z.ZodType<Json> = z.lazy(() =>
   z.union([literalSchema, z.array(jsonSchema), z.record(jsonSchema)])
 );
 
-export const json = () => jsonSchema;
+const json = () => jsonSchema;
 
 // This is my own 👇
 
