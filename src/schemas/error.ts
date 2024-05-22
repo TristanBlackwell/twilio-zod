@@ -1,6 +1,6 @@
 import z from "zod";
 
-const twilioError = z.object({
+export const twilioError = z.object({
   message: z.string().optional().describe("A description of the eror."),
   status: z.number().describe("The HTTP status code that matches the error"),
   code: z

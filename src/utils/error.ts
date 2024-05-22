@@ -11,12 +11,13 @@ export function generateMessage(error: ZodError) {
   return generateErrorMessage(error.issues, {
     maxErrors: 1,
     delimiter: {
-      component: ": ",
+      component: " - ",
     },
     path: {
       enabled: true,
-      type: "objectNotation",
+      type: "breadcrumbs",
       label: "",
+      transform: ({ value }) => (value ? value : "./"),
     },
     code: {
       enabled: true,
@@ -35,6 +36,16 @@ export function generateMessage(error: ZodError) {
  * @param error The error to type check
  */
 export function isTwilioError(error: unknown): error is TwilioError {
+  console.log(
+    error !== undefined &&
+      error !== null &&
+      typeof error === "object" &&
+      "status" in error &&
+      typeof error.status === "number" &&
+      "code" in error &&
+      typeof error.code === "number" &&
+      "moreInfo" in error
+  );
   return (
     error !== undefined &&
     error !== null &&

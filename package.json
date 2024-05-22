@@ -1,11 +1,11 @@
 {
   "name": "twilio-zod",
   "version": "0.0.1",
-  "description": "A collection of zod helpers for Twilio",
+  "description": "A collection of Zod helpers for Twilio",
   "main": "./lib/index.js",
   "module": "./lib/index.mjs",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "vitest",
     "build:esm": "rollup --config ./configs/rollup.config.js",
     "build:cjs": "tsc -p ./configs/tsconfig.cjs.json",
     "build:all": "yarn build:esm && yarn build:cjs"
@@ -26,7 +26,9 @@
     "@rollup/plugin-typescript": "^8.2.0",
     "rollup": "^2.70.1",
     "tslib": "^2.3.1",
-    "typescript": "^5.4.5"
+    "twilio": "^5.0.4",
+    "typescript": "^5.4.5",
+    "vitest": "^1.6.0"
   },
   "exports": {
     ".": {
