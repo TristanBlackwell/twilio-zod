@@ -4,6 +4,7 @@
   "description": "A collection of Zod helpers for Twilio",
   "main": "./lib/index.js",
   "module": "./lib/index.mjs",
+  "types": "./lib/index.d.ts",
   "scripts": {
     "test": "vitest",
     "build:esm": "rollup --config ./configs/rollup.config.js",
@@ -39,8 +40,5 @@
     "./package.json": "./package.json",
     "./locales/*": "./lib/locales/*"
   },
-  "files": [
-    "/lib",
-    "/index.d.ts"
-  ]
+  "files": ["/lib"]
 }
