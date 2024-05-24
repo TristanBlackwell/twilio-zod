@@ -1,18 +1,8 @@
 import { beforeEach, describe, expect, test, vi } from "vitest";
 
-import { generateMessage } from "../error";
+import { generateErrorMessage } from "../error";
 import { stringToJson } from "../json";
 import z from "zod";
-
-function mockGetConversation() {
-  throw {
-    message: "The requested resource Conversations/CHXXX could not be found",
-    status: 404,
-    code: 31002,
-    details: "Conversation not found",
-    moreInfo: "https://twilio.com",
-  };
-}
 
 describe("json utils", () => {
   beforeEach(() => {
@@ -28,8 +18,8 @@ describe("json utils", () => {
       throw new Error("Expected failed parse");
     }
 
-    expect(generateMessage(parsedBadJson.error)).toBe(
-      "custom - ./ - Invalid JSON"
+    expect(generateErrorMessage(parsedBadJson.error)).toBe(
+      "custom - ./ - Invalid JSON",
     );
   });
 
@@ -42,7 +32,7 @@ describe("json utils", () => {
   test("stringToJson can pipe JSON into subsequent schema", () => {
     let json = `{ "sid": "CH1234" }`;
     let schema = stringToJson.pipe(
-      z.object({ sid: z.string().startsWith("CH") })
+      z.object({ sid: z.string().startsWith("CH") }),
     );
 
     schema.parse(json);

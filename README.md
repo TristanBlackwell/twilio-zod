@@ -49,11 +49,11 @@ Not yet supported
 The most common usage is validating various [SIDs](https://www.twilio.com/docs/glossary/what-is-a-sid) from Twilio.
 
 ```ts
-import { sids } from "twilio-zod";
+import { schemas } from "twilio-zod";
 
-sids.conversationSidSchema.parse("CH5654396784325467987654345679543"); // => "CH5654396784325467987654345679543"
+schemas.sids.conversation.parse("CH5654396784325467987654345679543"); // => "CH5654396784325467987654345679543"
 
-sids.conversationSidSchema.parse("CH33246"); // => throws a ZodError
+schemas.sids.conversation.parse("CH33246"); // => throws a ZodError
 ```
 
 ## Extending
@@ -100,14 +100,14 @@ parsedTaskAttributes.language // => string ✔
 
 ### String to JSON
 
-In some events, Twilio will return a JSON as a string object. To predictably parse within a Zod schema a `stringToJson()` utility is exposed. 
+In some events, Twilio will return a JSON as a string object. To predictably parse within a Zod schema a `stringToJson()` utility is exposed.
 This can be used to implicity parse as JSON string and validate it against an schema:
 
 ```ts
-import { stringToJson } from "twilio-zod"
+import { schemas, stringToJson } from "twilio-zod"
 
 const attributesSchema = z.object({
-  conversationSid: z.string()...
+  conversationSid: schemas.sids.conversation
 });
 
 /*
@@ -128,14 +128,14 @@ const eventSchema = z.object({
 
 All schemas will throw (or return if safe parsing) an instance of `ZodError`. See the [Zod documentation](https://github.com/colinhacks/zod/blob/master/README.md#error-handling) for further detail.
 
-`ZodError` is brilliant for debugging but is not very user-friendly. A `generateMessage()` function is included which converts an instance of `ZodError` to a human-friendly, readable string. This takes the top-most error, ignoring the rest.
+`ZodError` is brilliant for debugging but is not very user-friendly. A `generateErrorMessage()` function is included which converts an instance of `ZodError` to a human-friendly, readable string. This takes the top-most error, ignoring the rest.
 
 ```ts
-import { sids } from "twilio-zod"
+import { schemas, generateErrorMessage } from "twilio-zod"
 
-let result = sids.conversationSidSchema.safeParse("CH234");
+let result = schemas.sids.conversation.safeParse("CH234");
 if (!result.success) {
-  console.error(generateMessage(result.error)); // => "too_small: SID must be 34 characters in length"
+  console.error(error.generateErrorMessage(result.error)); // => "too_small: SID must be 34 characters in length"
 } else {
   console.log("Good!");
 }
@@ -163,12 +163,12 @@ methods of dealing with this:
 A schema is exposed that can parse the error returned much like you would parse any other object:
 
 ```ts
-import { twilioError } from "twilio-zod/error"
+import { schemas } from "twilio-zod/error"
 
 try {
   twilio.conversations.v1.conversations("CH1234").fetch() // 404 error thrown
 } catch (err /* unknown */) {
-  let parsedError = twilioError.parse(err)
+  let parsedError = schemas.error.twilioError.parse(err)
   parsedError.data // TwilioError
 }
 ```

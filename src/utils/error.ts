@@ -1,14 +1,14 @@
 import { TwilioError } from "../schemas/error";
 import { ZodError } from "zod";
-import { generateErrorMessage } from "zod-error";
+import { generateErrorMessage as zeGenerateErrorMessage } from "zod-error";
 
 /**
 Takes in a Zod error and simplifies to a single string error
 message. If multiple errors are returned then just the top error
 is generated.
 */
-export function generateMessage(error: ZodError) {
-  return generateErrorMessage(error.issues, {
+export function generateErrorMessage(error: ZodError) {
+  return zeGenerateErrorMessage(error.issues, {
     maxErrors: 1,
     delimiter: {
       component: " - ",
@@ -44,7 +44,7 @@ export function isTwilioError(error: unknown): error is TwilioError {
       typeof error.status === "number" &&
       "code" in error &&
       typeof error.code === "number" &&
-      "moreInfo" in error
+      "moreInfo" in error,
   );
   return (
     error !== undefined &&

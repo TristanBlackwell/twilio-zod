@@ -3,7 +3,7 @@ import z from "zod";
 const sidLength = { len: 34, message: "SID must be 34 characters in length" };
 
 const sidRegex = {
-  pattern: /^AC[a-fA-F0-9]+$/,
+  pattern: /^[A-Z][A-Z][a-fA-F0-9]+$/,
   message: "Invalid SID pattern",
 };
 

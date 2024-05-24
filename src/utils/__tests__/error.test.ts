@@ -1,5 +1,5 @@
 import { beforeEach, describe, expect, test, vi } from "vitest";
-import { generateMessage, isTwilioError } from "../error";
+import { generateErrorMessage, isTwilioError } from "../error";
 
 import { conversation } from "../../schemas/sids";
 import { twilioError } from "../../schemas/error";
@@ -27,8 +27,8 @@ describe("error utils", () => {
       throw new Error("Expected failed parse");
     }
 
-    expect(generateMessage(parsedSid.error)).toBe(
-      "too_small - ./ - SID must be 34 characters in length"
+    expect(generateErrorMessage(parsedSid.error)).toBe(
+      "too_small - ./ - SID must be 34 characters in length",
     );
   });
 
