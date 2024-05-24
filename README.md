@@ -1,5 +1,12 @@
 # Twilio Zod
 
+<p align="center">
+    <a href="https://github.com/TristanBlackwell/twilio-zod/actions"><img src="https://img.shields.io/github/actions/workflow/status/TristanBlackwell/twilio-zod/publish.yml?branch=main" alt="Build Status"></a>
+    <a href="https://www.npmjs.com/package/twilio-zod"><img src="https://img.shields.io/npm/dt/twilio-zod.svg" alt="Total Downloads"></a>
+    <a href="https://github.com/TristanBlackwell/twilio-zod/releases"><img src="https://img.shields.io/npm/v/twilio-zod.svg" alt="Latest Release"></a>
+    <a href="https://github.com/TristanBlackwell/twilio-zod/blob/master/LICENSE"><img src="https://img.shields.io/npm/l/twilio-zod.svg" alt="License"></a>
+</p>
+
 ## Table of contents
 
 - [Twilio Zod](#twilio-zod)
