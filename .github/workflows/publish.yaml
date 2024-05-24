@@ -1,0 +1,31 @@
+name: Publish to NPM
+
+on:
+  workflow_dispatch:
+  push:
+    tags:
+      # When a new version tag is released e.g. 0.0.1
+      - "v[0-9]+.[0-9]+.[0-9]+"
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: setup node V20
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20.x"
+
+      - name: install dependencies
+        working-directory: "./"
+        run: yarn install --immutable --immutable-cache --mode=skip-build
+
+      - name: build
+        run: yarn build:all
+
+      - name: publish
+      - run: npm publish
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
