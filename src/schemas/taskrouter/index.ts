@@ -1,2 +1,60 @@
+import z from "zod";
+
 export * as task from "./task";
 export * as worker from "./task";
+
+export const eventType = z
+  .enum([
+    "activity.created",
+    "activity.updated",
+    "activity.deleted",
+    "reservation.created",
+    "reservation.accepted",
+    "reservation.rejected",
+    "reservation.timeout",
+    "reservation.canceled",
+    "reservation.rescinded",
+    "reservation.completed",
+    "reservation.failed",
+    "reservation.wrapup",
+    "task.created",
+    "task.updated",
+    "task.canceled",
+    "task.wrapup",
+    "task.completed",
+    "task.deleted",
+    "task.system-deleted",
+    "task.transfer-initiated",
+    "task.transfer-attempt-failed",
+    "task.transfer-failed",
+    "task.transfer-canceled",
+    "task.transfer-completed",
+    "task-channel.created",
+    "task-channel.updated",
+    "task-channel.deleted",
+    "task-queue.created",
+    "task-queue.deleted",
+    "task-queue.entered",
+    "task-queue.timeout",
+    "task-queue.moved",
+    "task-queue.expression.updated",
+    "worker.created",
+    "worker.activity.update",
+    "worker.attributes.update",
+    "worker.capacity.update",
+    "worker.channel.availability.update",
+    "worker.deleted",
+    "workflow.created",
+    "workflow.updated",
+    "workflow.deleted",
+    "workflow.target.matched",
+    "workflow.entered",
+    "workflow.timeout",
+    "workflow.skipped",
+    "workspace.created",
+    "workspace.updated",
+    "workspace.deleted",
+  ])
+  .describe("A TaskRouter event");
+
+export type EventType = z.infer<typeof eventType>;
