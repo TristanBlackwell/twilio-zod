@@ -14,7 +14,7 @@
   "author": "Tristan Blackwell",
   "repository": {
     "type": "git",
-    "url": "https://github.com/TristanBlackwell/twilio-zod"
+    "url": "git+https://github.com/TristanBlackwell/twilio-zod"
   },
   "homepage": "https://github.com/TristanBlackwell/twilio-zod",
   "license": "MIT",
