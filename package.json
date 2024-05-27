@@ -1,6 +1,6 @@
 {
   "name": "twilio-zod",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "A collection of Zod helpers for Twilio",
   "main": "./lib/index.js",
   "module": "./lib/index.mjs",
@@ -40,7 +40,5 @@
     "./package.json": "./package.json",
     "./locales/*": "./lib/locales/*"
   },
-  "files": [
-    "/lib"
-  ]
+  "files": ["/lib"]
 }
