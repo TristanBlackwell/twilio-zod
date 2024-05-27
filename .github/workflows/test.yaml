@@ -15,7 +15,7 @@ jobs:
 
       - name: Install dependencies
         working-directory: "./"
-        run: yarn install --immutable --immutable-cache --mode=skip-build
+        run: yarn install
 
       - name: Test
         run: yarn test
