@@ -16,6 +16,7 @@
     - [Popular package managers](#popular-package-managers)
     - [Deno](#deno)
   - [Usage](#usage)
+    - [SIDS](#sids)
   - [Extending](#extending)
   - [Utilities](#utilities)
     - [String to JSON](#string-to-json)
@@ -29,7 +30,7 @@
 
 Twilio Zod is a collection of [Zod](https://github.com/colinhacks/zod) helpers designed for making Twilio application development easier.
 
-Twilio Zod aims to remove the guesswork of Twilio objects, increase predictability, and extend type safety during development.
+Twilio Zod aims to remove the guesswork of Twilio objects, increase predictability, extend type safety during development and offer helper utilities around common actions.
 
 ## Installation
 
@@ -52,6 +53,8 @@ Not yet supported
 ## Usage
 
 > If are not already familiar with Zod, please [start here](https://github.com/colinhacks/zod).
+
+### SIDS
 
 The most common usage is validating various [SIDs](https://www.twilio.com/docs/glossary/what-is-a-sid) from Twilio.
 
