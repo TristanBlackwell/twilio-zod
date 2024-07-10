@@ -4,7 +4,18 @@ export const taskChannelName = z
   .enum(["default", "voice", "chat", "email", "sms", "video"])
   .describe("The channel which the task has come in on");
 
-const taskAttributes = z
+export const taskAssignmentStatus = z
+  .enum([
+    "pending",
+    "reserved",
+    "assigned",
+    "wrapping",
+    "completed",
+    "canceled",
+  ])
+  .describe("The status of task");
+
+export const taskAttributes = z
   .object({
     from: z.string().describe("The address which the call originated from"),
     direction: z
@@ -84,4 +95,5 @@ return extendedSchema.or(stringToJson.pipe(extendedSchema));
 */
 
 export type TaskChannelName = z.infer<typeof taskChannelName>;
+export type TaskAssignmentStatus = z.infer<typeof taskAssignmentStatus>;
 export type TaskAttributes = z.infer<typeof taskAttributes>;
