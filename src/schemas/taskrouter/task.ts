@@ -13,7 +13,10 @@ const taskAttributes = z
     conversations: z
       .object({
         initiated_by: z.string().optional(),
-        conversation_id: z.string().optional(),
+        conversation_id: z
+          .string()
+          .optional()
+          .describe("A unique ID to link multiple segments of a conversation"),
         external_contact: z.string().optional(),
         conversation_attribute_1: z.string().optional(),
         conversation_attribute_2: z.string().optional(),
@@ -25,15 +28,43 @@ const taskAttributes = z
         conversation_attribute_8: z.string().optional(),
         conversation_attribute_9: z.string().optional(),
         conversation_attribute_10: z.string().optional(),
+        conversation_label_1: z.string().optional(),
+        conversation_label_2: z.string().optional(),
+        conversation_label_3: z.string().optional(),
+        conversation_label_4: z.string().optional(),
+        conversation_label_5: z.string().optional(),
+        conversation_label_6: z.string().optional(),
+        conversation_label_7: z.string().optional(),
+        conversation_label_8: z.string().optional(),
+        conversation_label_9: z.string().optional(),
+        conversation_label_10: z.string().optional(),
+        conversation_measure_1: z.string().optional(),
+        conversation_measure_2: z.string().optional(),
+        conversation_measure_3: z.string().optional(),
+        conversation_measure_4: z.string().optional(),
+        conversation_measure_5: z.string().optional(),
+        conversation_measure_6: z.string().optional(),
+        conversation_measure_7: z.string().optional(),
+        conversation_measure_8: z.string().optional(),
+        conversation_measure_9: z.string().optional(),
+        conversation_measure_10: z.string().optional(),
       })
       .passthrough()
       .optional(),
     customers: z
       .object({
-        phone: z.string().optional(),
-        name: z.string().optional(),
         external_id: z.string().optional(),
+        name: z.string().optional(),
+        email: z.string().optional(),
+        phone: z.string().optional(),
+        gender: z.string().optional(),
         external_contact: z.string().optional(),
+        customer_attribute_1: z.string().optional(),
+        customer_attribute_2: z.string().optional(),
+        customer_attribute_3: z.string().optional(),
+        customer_label_1: z.string().optional(),
+        customer_label_2: z.string().optional(),
+        customer_label_3: z.string().optional(),
       })
       .passthrough()
       .optional(),
